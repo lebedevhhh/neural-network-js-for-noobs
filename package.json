@@ -1,0 +1,30 @@
+{
+  "name": "matrix",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "cd tests && node test.mjs"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lebedevhhh/neural-network-js-for-noobs.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lebedevhhh/neural-network-js-for-noobs/issues"
+  },
+  "homepage": "https://github.com/lebedevhhh/neural-network-js-for-noobs#readme",
+  "dependencies": {
+    "csv-stringify": "^6.2.3",
+    "dom-parser": "^0.1.6",
+    "js-yaml": "^4.1.0",
+    "xml-js": "^1.6.11",
+    "xml-writer": "^1.7.0"
+  }
+}

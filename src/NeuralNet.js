@@ -3,13 +3,13 @@ import { Matrix } from "./matrix.mjs";
 import { MatrixDotError, MatrixAdditionError, MatrixMultiplyError, MatrixNotDesired, MatrixNotSquareError, LossFunctionUndefined ,activationFunctionNotRecognized} from "./Errors.mjs";
 import fs from 'fs';
 import { LossFunctions } from "./Loss.mjs";
-import { stringify } from 'csv-stringify';
-import XMLWriter from "xml-writer";
-import yaml from "js-yaml";
-import convert from "xml-js";
-import csv from "csvtojson";
+import { stringify } from 'csv-stringify';//F
+import XMLWriter from "xml-writer"; //F
+import yaml from "js-yaml"; //Fait
+import convert from "xml-js"; //FAIT 
+// import csv from "csvtojson";
 import { getExt } from "./utils.mjs";
-import DOMParser from "dom-parser";
+import DOMParser from "dom-parser"; //FAIT 
 
 //READ THE DOCS ----> https://www.npmjs.com/package/xml-writer
 //read the DOCS ----> https://www.npmjs.com/package/js-yaml
@@ -48,10 +48,6 @@ export class NeuralNet{
         else this.loss = null;
     }
 
-    setLossFunction(nameFuncActivation){
-        this.loss = nameFuncActivation
-    }
-
     setActivationFunction(nameFuncActivation){
         //une espece de mapping
         this.activation = nameFuncActivation; //the user should choose between those 
@@ -60,8 +56,6 @@ export class NeuralNet{
 
     //TODO GET RESULT
     getResult(input, trueValue){
-        // let result = []; // shall contain the result and the loss
-        // let resultMap = new Map();
         let resultJSON = {};
 
         for (let key of Object.keys(this.neural)){
@@ -146,8 +140,13 @@ export class NeuralNet{
 
     // }
 
-    setLossFunction(func){
-        this.loss = func;
+    //IMPLEMENT FUNCTION SAVE INTO FILE,  but not exctract, we will let the user do it 
+    saveFile(filename, path){
+        //TODO
+    }
+
+    setLossFunction(nameLoss){
+        this.loss = nameLoss;
     }
 
     static copy(jsonObj){ //json object should meet the requirement of the class constructor
