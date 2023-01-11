@@ -1,0 +1,4 @@
+backprop:{
+	compute ----> (derivative of the output in respec to the wieght) * ( deriavtive of the cost function respect to the output ) 
+	choose learning rate (whatever) ---> multply by compute new matrix 
+}

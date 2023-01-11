@@ -1,6 +1,8 @@
 //in the name of the most merciful, the all merciful
 
 //those are the activation functions 
+//DOCS ----> https://en.wikipedia.org/wiki/Activation_function
+
 
 export class activationFunctions{
 
@@ -67,7 +69,7 @@ export class activationFunctions{
         return result;
     }
 
-    static ELU(A){
+    static ELU(A, params){
 
         let result;
 
@@ -78,7 +80,7 @@ export class activationFunctions{
                         A.matrix[i][j] = A.matrix[i][j];
                     }
                     else{
-                        A.matrix[i][j] = 4 * (Math.pow(Math.E, A.matrix[i][j]) - 1);
+                        A.matrix[i][j] = params * (Math.pow(Math.E, A.matrix[i][j]) - 1);
                     }
                 }
             }
@@ -92,7 +94,7 @@ export class activationFunctions{
                 return results;
             }
             else{
-                result = 4 * (Math.pow(Math.E, A) - 1);
+                result = params * (Math.pow(Math.E, A) - 1);
                 return result;
             }
         }
@@ -230,3 +232,148 @@ export class activationFunctions{
     }
 }
 
+//shall we make a derive?
+//YES
+export default class derivActivationFunctions{
+    static derivSigmoid(A){
+        //A : matrix ou un nombre entier
+        let result;
+
+        //cas matrix
+        if (typeof(A) != "number"){
+            for (let i = 0; i < A.shape[0]; i++){
+                for (let j = 0; j < A.shape[1]; j++){
+                    A.matrix[i][j] = Math.pow(Math.E, -A.matrix[i][j])/Math.pow(1+Math.pow(Math.E, -A.matrix[i][j]),2);
+                }
+            }
+            result = A
+            return result
+        }
+    
+        //cas nombre entier
+        else{
+            result = Math.pow(Math.E, -A)/Math.pow(1+Math.pow(Math.E, -A), 2);
+            return result;
+        }
+    }
+
+    static derivTanh(A){
+        //A : matrix ou un nombre entier
+        let result;
+
+        //cas matrix
+        if (typeof(A) != "number"){
+            for (let i = 0; i < A.shape[0]; i++){
+                for (let j = 0; j < A.shape[1]; j++){
+                    //TDOO
+                    // result = 1 - Math.pow( Math.pow(Math.E,) ,2);
+                }
+            }
+            result = A
+            return result
+        }
+    
+        //cas nombre entier
+        else{
+            //toDO
+            // result = 1 - Math.pow( ,2);
+            return result
+        }
+    }
+
+    static derivReLu(){
+        let result;
+
+        //cas matrix
+        if (typeof(A) != "number"){
+            for (let i = 0; i < A.shape[0]; i++){
+                for (let j = 0; j < A.shape[1]; j++){
+                    if (A.matrix[i][j] < 0) A.matrix[i][j] = 0; 
+                    else A.matrix[i][j] = 1;
+                }
+            }
+            result = A;
+            return result;
+        }
+    
+        //cas nombre entier
+        else{
+            if (A < 0) result = 0;
+            else result = 1;
+            return result;
+        }
+    }
+
+    static derivSoftplus(A){
+        let result;
+
+        //cas matrix
+        if (typeof(A) != "number"){
+            for (let i = 0; i < A.shape[0]; i++){
+                for (let j = 0; j < A.shape[1]; j++){
+                    A.matrix[i][j] = 1/(1+ Math.pow(Math.E, -A.matrix[i][j]));
+                }
+            }
+            result = A;
+            return result;
+        }
+    
+        //cas nombre entier
+        else{
+            result = 1/(1+ Math.pow(Math.E, -A));
+            return result;
+        }
+    }
+
+
+    static derivELU(A, params){
+        let result;
+
+        //cas matrix
+        if (typeof(A) != "number"){
+            for (let i = 0; i < A.shape[0]; i++){
+                for (let j = 0; j < A.shape[1]; j++){
+                    if (A.matrix[i][j] < 0) A.matrix[i][j] = params * Math.pow(Math.E, A.matrix[i][j]);
+                    else A.matrix[i][j] = 1
+                }
+            }
+            result = A;
+            return result;
+        }
+    
+        //cas nombre entier
+        else{
+            if (A < 0) result = params * A;
+            else result = 1;
+            return result;
+        }
+    }
+
+    //static SiLU TODO
+
+
+    //TODO
+    static derivGELU(A){
+        let result;
+
+        //cas matrix
+        if (typeof(A) != "number"){
+            for (let i = 0; i < A.shape[0]; i++){
+                for (let j = 0; j < A.shape[1]; j++){
+                    //TDOO
+                    // result = 1 - Math.pow( Math.pow(Math.E,) ,2);
+                }
+            }
+            result = A
+            return result
+        }
+    
+        //cas nombre entier
+        else{
+            //toDO
+            // result = 1 - Math.pow( ,2);
+            return result
+        }
+    }
+
+}

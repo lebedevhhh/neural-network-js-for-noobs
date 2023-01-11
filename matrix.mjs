@@ -101,7 +101,7 @@ export class Matrix{
 
         for (var i = 0; i < M; i++){
             for (var j = 0; j < N; j++){
-                randomMatrix[i][j] = Math.floor(Math.random() * range)
+                randomMatrix[i][j] = Math.random() * range
             }
         }
 

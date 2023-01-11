@@ -50,3 +50,11 @@ export class notMatrix{
         process.exit(1);
     }
 }
+
+
+export class LossFunctionUndefined{
+    static showErr(args){
+        console.error(`undefined loss function : ${args}`)
+        process.exit(1);
+    }
+}

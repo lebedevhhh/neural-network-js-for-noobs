@@ -1,6 +1,6 @@
 import { activationFunctions } from "./Active.mjs";
 import { Matrix } from "./matrix.mjs";
-import { MatrixDotError, MatrixAdditionError, MatrixMultiplyError, MatrixNotDesired, MatrixNotSquareError, activationFunctionNotRecognized} from "./Errors.mjs";
+import { MatrixDotError, MatrixAdditionError, MatrixMultiplyError, MatrixNotDesired, MatrixNotSquareError, LossFunctionUndefined ,activationFunctionNotRecognized} from "./Errors.mjs";
 import fs from 'fs';
 import { LossFunctions } from "./Loss.mjs";
 import { stringify } from 'csv-stringify';
@@ -9,7 +9,6 @@ import yaml from "js-yaml";
 import convert from "xml-js";
 import csv from "csvtojson";
 import { getExt } from "./utils.mjs";
-// import xmlParser 
 import DOMParser from "dom-parser";
 
 //READ THE DOCS ----> https://www.npmjs.com/package/xml-writer
@@ -21,30 +20,31 @@ import DOMParser from "dom-parser";
 var xmlParser = new DOMParser();    
 
 
-class NeuralNet{
+export class NeuralNet{
 
     //ARGS : deep, how much neural u want
-    //size : size of your input matrix  (should be an array)
+    //size : size of your input matrix  (should be an array)?
     constructor(jsonObj){ 
         //we can store or 
         this.neural = {};
         this.size = jsonObj.size; //size of the input matrixes 
         this.name = jsonObj.name;
+        this.deep = jsonObj.Layers;
 
         //defining the first two (those are matrix object, so u  can access it with propreties)
         this.neural['W1'] = Matrix.random(this.size[1], this.size[0], 1);
         this.neural["B1"] = Matrix.random(this.size[0], this.size[0], 1);
         this.neural["W2"] = Matrix.random(this.size[1], this.size[1], 1);
         this.neural["B2"] = Matrix.random(this.size[1], this.size[1], 1);
-        for (let i = 0; i < deep - 2; i++){
+        for (let i = 0; i < this.deep - 2; i++){
             this.neural[`W${i}`] = Matrix.random(this.size[1], this.size[1], 1);
             this.neural[`B${i}`] = Matrix.random(this.size[0], this.size[0], 1);
         }
 
-        if (jsonObj.activation) this.activation = jsonObj.name;
+        if (jsonObj.activation) this.activation = jsonObj.activation;
         else this.activation = null;
 
-        if (jsonObj.lossFunction) this.loss = jsonObj.loss;
+        if (jsonObj.lossFunction) this.loss = jsonObj.lossFunction;
         else this.loss = null;
     }
 
@@ -54,7 +54,7 @@ class NeuralNet{
 
     setActivationFunction(nameFuncActivation){
         //une espece de mapping
-        this.function = nameFuncActivation; //the user should choose between those 
+        this.activation = nameFuncActivation; //the user should choose between those 
         // in the class activationFunctions 
     }
 
@@ -66,15 +66,18 @@ class NeuralNet{
 
         for (let key of Object.keys(this.neural)){
             if (key.charAt(0) == "W"){
+                // console.log(this.neural[key])
                 input = Matrix.dot(input, this.neural[key]);
+                // console.log(input);
             }
             else{
                 input = Matrix.add(input, this.neural[key]);
+                // console.log(input);
             }
         }
 
         //when we finish the process of "forward props"
-        switch (this.function){
+        switch (this.activation){
             case "sigmoid":
                 input = activationFunctions.sigmoid(input);
                 break;
@@ -121,13 +124,16 @@ class NeuralNet{
 
         switch (this.loss){
             case "linearLoss":
-                resultJSON["loss"] = LossFunction.linearLoss(input, trueValue);
+                resultJSON["loss"] = LossFunctions.linearLoss(input, trueValue);
                 // resultJSON["output"] = input;
                 break;
 
             case "squaredLoss":
-                resultJSON["loss"] = LossFunction.squaredLoss(input, trueValue);
+                resultJSON["loss"] = LossFunctions.squaredLoss(input, trueValue);
                 break;
+            
+            default:
+                LossFunctionUndefined.showErr(this.loss);
         }
 
         resultJSON["output"] = input;
@@ -135,6 +141,10 @@ class NeuralNet{
         return resultJSON;
     }
 
+    //gradient-descent (NEED MORE INFO)
+    // backPropagation(){
+
+    // }
 
     setLossFunction(func){
         this.loss = func;

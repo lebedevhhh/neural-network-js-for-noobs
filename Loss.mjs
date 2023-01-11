@@ -1,6 +1,8 @@
 //in the name of the most merciful the all merciful;
+import { Matrix } from "./matrix.mjs";
 
-export default class LossFunctions{
+
+export class LossFunctions{
 
     //TODO implement the LOG LOSS
     static linearLoss(prediction, trueValues){
@@ -30,6 +32,4 @@ export default class LossFunctions{
     }
 }
 
-
-
-
+//shall we make a deriv ?
