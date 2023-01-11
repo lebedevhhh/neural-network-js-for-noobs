@@ -1,6 +1,4 @@
 //in the name of the most merciful the all merciful
-//some utility function 
-import XMLWriter from "xml-writer";
 
 export function getExt(filename){
     let ext;

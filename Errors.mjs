@@ -1,35 +1,52 @@
-//in the name of the most merciful the all merciful;
+//classes for errors 
 
-class LossFunctions{
-
-    //TODO implement the LOG LOSS
-    static linearLoss(prediction, trueValues){
-        let result;
-        if (prediction.constructor.name != "Matrix"){
-            notMatrix.showErr(prediction);
-        }
-        
-        result = Matrix.absMatrix(Matrix.minus(trueValues, prediction));
-        return result;
+export class MatrixDotError{
+    //args : matrixes ----> a.shape 
+    static showErr(shape1, shape2){
+        console.error(`Matrix shapes doesnt match : ${shape1[1]} != ${shape2[0]}`);
+        process.exit(1);
     }
 
-    static sqauredLoss(prediction, trueValues){ //the true values shall be a matrix class
-        let result;
-        
-        if (prediction.constructor.name != "Matrix"){ 
-            return new notMatrix(prediction).showErr(); 
-        }
+}
 
-        result = Matrix.minus(trueValues, prediction)
-        for (let i = 0; i < result.shape[0]; i++){
-            for (let j = 0; j < result.shape[1]; j++){
-                result.matrix[i][j] = Math.pow(result.matrix[i][j], 2);
-            }
-        }
-        return result; //this is the LOSS
+export class MatrixAdditionError{
+
+    static showErr(shape1, shape2){
+        console.error(`Matrix shapes doesnt match : ${shape1} != ${shape2}`);
+        process.exit(1);
+    }
+
+}
+
+export class activationFunctionNotRecognized{
+    static showErr(name){
+        console.error(`Name of the function is not recognized : ${name}`);
+        process.exit(1);
     }
 }
 
+//extends the static methods
+export class MatrixMultiplyError extends MatrixAdditionError{}
 
+export class MatrixNotSquareError{
 
+    static showErr(shapeOfMatrix){
+        console.error(`Matrix is not a square matrix : ${shapeOfMatrix[0]} != ${shapeOfMatrix[1]}`);
+        process.exit(1);
+    }
 
+}
+
+export class MatrixNotDesired{
+    static showErr(shapeOfMatrix){
+        console.error(`Matrix is not of the desired shape: (${shapeOfMatrix[0]}, ${shapeOfMatrix[1]}) != (2,2)`);
+        process.exit(1);
+    }
+}
+
+export class notMatrix{
+    static showErr(args){
+        console.error(`The argument : ${args} is not a matrix [TYPE] ${typeof(args)}`);
+        process.exit(1);
+    }
+}

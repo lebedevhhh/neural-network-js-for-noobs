@@ -1,13 +1,14 @@
 import { activationFunctions } from "./Active.mjs";
 import { Matrix } from "./matrix.mjs";
-import { MatrixDotError, MatrixAdditionError, MatrixMultiplyError, MatrixNotDesired, MatrixNotSquareError} from "./matrix.mjs";
+import { MatrixDotError, MatrixAdditionError, MatrixMultiplyError, MatrixNotDesired, MatrixNotSquareError, activationFunctionNotRecognized} from "./Errors.mjs";
 import fs from 'fs';
+import { LossFunctions } from "./Loss.mjs";
 import { stringify } from 'csv-stringify';
-import getExt from "./utils.js";
 import XMLWriter from "xml-writer";
 import yaml from "js-yaml";
 import convert from "xml-js";
 import csv from "csvtojson";
+import { getExt } from "./utils.mjs";
 // import xmlParser 
 import DOMParser from "dom-parser";
 
@@ -17,9 +18,7 @@ import DOMParser from "dom-parser";
 // read the DOCS ----> https://www.npmjs.com/package/dom-parser || EXAMPLE ----> https://www.w3schools.com/xml/tryit.asp?filename=try_dom_loadxmltext
 
 //DEFINING vars
-var xmlParser = new DOMParser();
-// const activationFunctionsMapping = new Map();
-// activationFunctionsMapping.set()
+var xmlParser = new DOMParser();    
 
 
 class NeuralNet{
@@ -46,7 +45,11 @@ class NeuralNet{
         else this.activation = null;
 
         if (jsonObj.lossFunction) this.loss = jsonObj.loss;
-        else this.activation = null;
+        else this.loss = null;
+    }
+
+    setLossFunction(nameFuncActivation){
+        this.loss = nameFuncActivation
     }
 
     setActivationFunction(nameFuncActivation){
@@ -56,8 +59,10 @@ class NeuralNet{
     }
 
     //TODO GET RESULT
-    getResult(input){
-        let result;
+    getResult(input, trueValue){
+        // let result = []; // shall contain the result and the loss
+        // let resultMap = new Map();
+        let resultJSON = {};
 
         for (let key of Object.keys(this.neural)){
             if (key.charAt(0) == "W"){
@@ -69,9 +74,65 @@ class NeuralNet{
         }
 
         //when we finish the process of "forward props"
-        input = this.function
+        switch (this.function){
+            case "sigmoid":
+                input = activationFunctions.sigmoid(input);
+                break;
+                
+            case "GELU":
+                input = activationFunctions.GELU(input);
+                break;
+            
+            case "Softplus":
+                input = activationFunctions.Softplus(input);
+                break;
+            
+            case "ELU":
+                input = activationFunctions.ELU(input);
+                break;
+            
+            case "SiLU":
+                input = activationFunctions.SiLU(input);
+                break;
 
-        return result;
+            case "Gaussian":
+                input = activationFunctions.Gaussian(input);
+                break;
+            
+            case "tanh":
+                input = activationFunctions.tanh(input);
+                break;
+            
+            case "arctan":
+                input = activationFunctions.arctan(input);
+                break;
+            
+            case "sgn":
+                input = activationFunctions.sgn(input);
+                break;
+
+            case "ReLU":
+                input = activationFunctions.ReLu(input);
+                break;
+
+            default:
+                activationFunctionNotRecognized.showErr(this.function);
+        }
+
+        switch (this.loss){
+            case "linearLoss":
+                resultJSON["loss"] = LossFunction.linearLoss(input, trueValue);
+                // resultJSON["output"] = input;
+                break;
+
+            case "squaredLoss":
+                resultJSON["loss"] = LossFunction.squaredLoss(input, trueValue);
+                break;
+        }
+
+        resultJSON["output"] = input;
+
+        return resultJSON;
     }
 
 
