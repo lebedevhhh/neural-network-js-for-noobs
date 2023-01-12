@@ -2,3 +2,14 @@ backprop:{
 	compute ----> (derivative of the output in respec to the wieght) * ( deriavtive of the cost function respect to the output ) 
 	choose learning rate (whatever) ---> multply by compute new matrix 
 }
+
+matrix algebra() ---->{
+	https://www.youtube.com/watch?v=PqKyvTWYjPQ
+	-assuming all equations are perfectly aligned in the form:  ax + yx + zx + ... = b
+	pistes de reflexions (FOR THE GAUSSIAN ELIMINATION) {
+		-slice (seperate vars and c's)
+		- create a "simplify" function for gcd
+		- Receprocals (playing with signs (+, -))
+		-	
+	}
+}
