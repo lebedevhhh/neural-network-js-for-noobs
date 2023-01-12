@@ -58,3 +58,12 @@ export class LossFunctionUndefined{
         process.exit(1);
     }
 }
+
+
+export class FF{ // FIlLE FAILED
+
+    static showErr(err){
+        console.error(err);
+        process.exit(1);
+    }
+}

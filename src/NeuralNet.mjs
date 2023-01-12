@@ -1,6 +1,6 @@
 import { activationFunctions } from "./Active.mjs";
 import { Matrix } from "./matrix.mjs";
-import { MatrixDotError, MatrixAdditionError, MatrixMultiplyError, MatrixNotDesired, MatrixNotSquareError, LossFunctionUndefined ,activationFunctionNotRecognized} from "./Errors.mjs";
+import { MatrixDotError, FF, MatrixAdditionError, MatrixMultiplyError, MatrixNotDesired, MatrixNotSquareError, LossFunctionUndefined ,activationFunctionNotRecognized} from "./Errors.mjs";
 import fs from 'fs';
 import { LossFunctions } from "./Loss.mjs";
 import { stringify } from 'csv-stringify';//F
@@ -9,7 +9,6 @@ import yaml from "js-yaml"; //Fait
 import convert from "xml-js"; //FAIT 
 // import csv from "csvtojson";
 import { getExt } from "./utils.mjs";
-import DOMParser from "dom-parser"; //FAIT 
 
 //READ THE DOCS ----> https://www.npmjs.com/package/xml-writer
 //read the DOCS ----> https://www.npmjs.com/package/js-yaml
@@ -142,7 +141,34 @@ export class NeuralNet{
 
     //IMPLEMENT FUNCTION SAVE INTO FILE,  but not exctract, we will let the user do it 
     saveFile(filename, path){
-        //TODO
+
+        switch(getExt(filename)){
+            case "json":
+                fs.writeFile(path + filename, JSON.stringify(this), (err) => {
+                    if (err){
+                        // console.error("[FAILED CREATING FILE]: " + err);
+                        // process.exit(1);
+                    }
+                })   
+            
+            case "xml":
+                xw  = new XMLWriter();
+                xw.startDocument();
+                xw.startElement("NeuralNetwork");
+                xw.writeAttribute("name", this.name);
+                for (let i = 0; i < (Object.keys(this.neural).length / 2); i++){
+                    xw.writeElement(`W{i}`, this.neural[`W{i}`]);
+                    xw.writeElement(`B{i}`, this.neural[`B{i}`]);
+                }
+                xw.writeElement("Activation function", this.activation);
+                xw.writeElement("Loss function", this.loss);
+                fs.writeFile(path + filename, xw.toString()), (err) => {
+                    if (err){
+                        // console.log("[]")
+                    }
+                };
+
+        }
     }
 
     setLossFunction(nameLoss){
