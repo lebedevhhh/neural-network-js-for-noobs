@@ -1,5 +1,5 @@
 //in the name of the most merciful the all merciful
-
+import {Matrix} from "../matrix.mjs";
 //source code : https://gist.github.com/syphh/0df7faf18a0412346dacefe8a213da4b
 export default function karatsuba(x, y){
     if (x < 10 && y < 10) return x * y;
@@ -19,7 +19,7 @@ export default function karatsuba(x, y){
     }
 };
 
-//is there a way of doing this with decimal numbers
+//is there a way of doing this with decimal numbers??/
 //karatsuba generalized (works with decimals, we need)
 function getScientificNotation(number){
     if (Number.isInteger(number)){
@@ -29,7 +29,7 @@ function getScientificNotation(number){
     else{
         let n = 0;
         while (!Number.isInteger(number)){
-            number *= 10;
+            number *= 10; //this might be slower
             n--;
         }
         let remaining = number;
@@ -41,19 +41,12 @@ function getScientificNotation(number){
 
 };
 
-// console.log(getScientificNotation(1.6774));
 function karatsubaGeneralized(x, y){
     x = getScientificNotation(x);
     y = getScientificNotation(y);
-    // console.log(x);
-    // console.log(y);
     let product = karatsuba(x[0], y[0]);
-    // console.log(product);
     let exponent = x[1] + y[1];
-    // console.log()
     let result = product * (10 ** exponent);
     return result;
 };
 
-
-console.log(karatsubaGeneralized(1.5, 4.5));
