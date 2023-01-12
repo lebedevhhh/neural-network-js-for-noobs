@@ -5,7 +5,7 @@ import fs from 'fs';
 import { LossFunctions } from "./Loss.mjs";
 import { stringify } from 'csv-stringify';//F
 import XMLWriter from "xml-writer"; //F
-import yaml from "js-yaml"; //Fait
+import yaml, { JSON_SCHEMA } from "js-yaml"; //Fait
 import convert from "xml-js"; //FAIT 
 // import csv from "csvtojson";
 import { getExt } from "./utils.mjs";
@@ -13,7 +13,6 @@ import { getExt } from "./utils.mjs";
 //READ THE DOCS ----> https://www.npmjs.com/package/xml-writer
 //read the DOCS ----> https://www.npmjs.com/package/js-yaml
 //read the DOCS ----> https://csv.js.org/
-// read the DOCS ----> https://www.npmjs.com/package/dom-parser || EXAMPLE ----> https://www.w3schools.com/xml/tryit.asp?filename=try_dom_loadxmltext
 
 //DEFINING vars
 var xmlParser = new DOMParser();    
@@ -146,10 +145,10 @@ export class NeuralNet{
             case "json":
                 fs.writeFile(path + filename, JSON.stringify(this), (err) => {
                     if (err){
-                        // console.error("[FAILED CREATING FILE]: " + err);
-                        // process.exit(1);
+                        FF.showErr(err);
                     }
                 })   
+                break;
             
             case "xml":
                 xw  = new XMLWriter();
@@ -164,10 +163,48 @@ export class NeuralNet{
                 xw.writeElement("Loss function", this.loss);
                 fs.writeFile(path + filename, xw.toString()), (err) => {
                     if (err){
-                        // console.log("[]")
+                        FF.showErr(err);
                     }
                 };
+                break;
+            
+            case "yaml":
+                const text = yaml.dump(this, JSON_SCHEMA);
+                fs.writeFile(path+filename, text, (err) => {
+                    if (err){
+                        FF.showErr(err);
+                    }
+                });
+                break;
+            
+            case "csv":
+                var arrKeys = [];
+                var arrValues = [];
+                for (let i of Object.keys(this.neural)){
+                    arrKeys.push(i);
+                    arrValues.push(this.neural[i]);
+                }
+                arrKeys.push("Activation Function");
+                arrValues.push(this.activation);
+                arrKeys.push("Loss function");
+                arrValues.push(this.loss);
 
+                stringify([
+                    arrKeys,
+                    arrValues
+                ], function (err, output){
+                    if (err){
+                        FF.showErr(err)
+                    }
+                    fs.writeFile(path + filename, output, (err) => {
+                        if (err) FF.showErr(err);
+                    });
+                });
+                break;
+
+            default:
+                FF.showErr("this file extension is not supported: " + getExt(filename));
+                break;
         }
     }
 
