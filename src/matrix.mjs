@@ -4,9 +4,8 @@ export class Matrix{
 
     //create from m,n dimensions 
     constructor(array){
-        this.matrix = array
-        this.shape = [array.length, array[0].length]
-        this.size = array.length * array[0].length 
+        this.matrix = array;
+        this.shape = [array.length, array[0].length];
     }
 
     //transposing the matrix

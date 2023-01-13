@@ -6,6 +6,9 @@
   "directories": {
     "test": "tests"
   },
+  "scripts": {
+    "test": "cd tests && node test.mjs"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lebedevhhh/neural-network-js-for-noobs.git"

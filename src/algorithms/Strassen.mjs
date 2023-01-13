@@ -5,10 +5,10 @@ import { Matrix } from "../matrix.mjs";
 
 function splitMatrix(A){
     let n = A.shape[0];
-    let m1;
-    let m2;
-    let m3;
-    let m4;
+    let m1 = new Matrix();
+    let m2 = new Matrix();
+    let m3 = new Matrix();
+    let m4 = new Matrix();
     A.matrix.slice(0, n / 2).map((subList) => {
         m1 = subList.slice(0, n/2);
     });
@@ -22,11 +22,11 @@ function splitMatrix(A){
         m4 = subList.slice(n/2, n);
     })
 
-    return [m1, m2, m3, m4];
+    return [m1, m2, m3, m4]; //return the class Matrix 
 }
 
 function strassen(A, B){
-    if (A.matrix.shape[0] <= 2){
+    if (A.shape[0] <= 2){
         return Matrix.dot(A, B);
     }
     let [a,b,c,d] = splitMatrix(A);
@@ -43,6 +43,19 @@ function strassen(A, B){
     let C21 = p6 + p2;
     let C22 = p5 + p1 - p6 - p7; //22, are the i, j indexes
     //PROBLEM HOW ARE WE GOING TO PUT TOGETHER C11, C22 etc... to fit into one matrix;
+    // let C = new Matrix();
     let C = new Matrix();
+    C.matrix.push(C11);
+    C.matrix.push(C12);
+    C.matrix.push(C21);
+    C.matrix.push(C22);
     return C;
 }
+
+
+let t1 = new Matrix([[4,5,3,2],[4,6,3,2],[3,5,23,2],[4,5,6,3]]);
+let t2 = new Matrix([
+    [5,5,5,5],[3,5,4,3],[65,7,4,3],[5,6,3,3]
+]);
+
+strassen(t1, t2).repr();

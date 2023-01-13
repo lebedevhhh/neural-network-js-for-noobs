@@ -28,3 +28,5 @@
 // });
 
 // console.log(model.getResult(input, trueValue).loss);
+let t = [[1,32,4], [4,56,6]];
+console.log(t.length);
