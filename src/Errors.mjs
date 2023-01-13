@@ -67,3 +67,10 @@ export class FF{ // FIlLE FAILED
         process.exit(1);
     }
 }
+
+export class NoInputConstructorMatrix{
+    static showErr(){
+        console.error("there's no input in the class Matrix constructor"); 
+        process.exit(1);
+    }
+}

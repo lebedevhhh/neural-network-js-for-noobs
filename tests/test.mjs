@@ -28,5 +28,9 @@
 // });
 
 // console.log(model.getResult(input, trueValue).loss);
-let t = [[1,32,4], [4,56,6]];
-console.log(t.length);
+// let t = [[1,32,4], [4,56,6]];
+// console.log(t.length);
+
+// let t = [() => {if (1==1) return [true]}];
+
+// // console.log(t());

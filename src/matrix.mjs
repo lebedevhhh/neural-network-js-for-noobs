@@ -1,14 +1,25 @@
 //in the name of the most merciful the all merciful
 
+import { NoInputConstructorMatrix, 
+    MatrixAdditionError,
+    notMatrix,
+    MatrixNotDesired,
+    MatrixMultiplyError, 
+    MatrixNotSquareError } from "./Errors.mjs";
+
 export class Matrix{
 
     //create from m,n dimensions 
     constructor(array){
         this.matrix = array;
-        this.shape = [array.length, array[0].length];
+        if (array.length == undefined){
+            NoInputConstructorMatrix.showErr(); 
+        }
+        if (array[0].length == undefined){
+            array[0].length = 0;
+        }
     }
 
-    //transposing the matrix
     T(){
         let tMatrix = Array(this.shape[1])
         for (let i = 0; i < tMatrix.length; i++){

@@ -4,26 +4,31 @@ import { Matrix } from "../matrix.mjs";
 //n x n matrices only 
 
 function splitMatrix(A){
+
     let n = A.shape[0];
-    let m1 = new Matrix();
-    let m2 = new Matrix();
-    let m3 = new Matrix();
-    let m4 = new Matrix();
+    console.log(n);
+    let m1 ;
+    let m2 ;
+    let m3 ;
+    let m4 ;
+
     A.matrix.slice(0, n / 2).map((subList) => {
-        m1 = subList.slice(0, n/2);
+        m1 = new Matrix(subList.slice(0, n/2));
+        // console.log("test");
     });
     A.matrix.slice(0, n/2).map( (subList) => {
-        m2 = subList.slice(n/2, n);
+        m2 = new Matrix(subList.slice(n/2, n));
     })
     A.matrix.slice(n/2, n).map( (subList) => {
-        m3 = subList.slice(0, n/2);
+        m3 = new Matrix(subList.slice(0, n/2));
     })
     A.matrix.slice(n/2, n).map( (subList) => {
-        m4 = subList.slice(n/2, n);
+        m4 = new Matrix(subList.slice(n/2, n));
     })
 
     return [m1, m2, m3, m4]; //return the class Matrix 
 }
+
 
 function strassen(A, B){
     if (A.shape[0] <= 2){
@@ -58,4 +63,5 @@ let t2 = new Matrix([
     [5,5,5,5],[3,5,4,3],[65,7,4,3],[5,6,3,3]
 ]);
 
-strassen(t1, t2).repr();
+console.log(splitMatrix(t1));
+
