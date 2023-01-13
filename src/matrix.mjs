@@ -12,12 +12,10 @@ export class Matrix{
     //create from m,n dimensions 
     constructor(array){
         this.matrix = array;
-        if (array.length == undefined){
+        if (array == undefined){
             NoInputConstructorMatrix.showErr(); 
         }
-        if (array[0].length == undefined){
-            array[0].length = 0;
-        }
+        this.shape = [array.length, array[0].length];
     }
 
     T(){
