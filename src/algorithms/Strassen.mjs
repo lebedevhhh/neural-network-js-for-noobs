@@ -33,6 +33,40 @@ function splitMatrix(A){
     return [m1, m2, m3, m4]; //return the class Matrix 
 }
 
+//O(n2), but only 4 matrices
+function cpy(C11, C12, C21, C22){
+
+    let m1 = [];
+    let m2 = [];
+    let m3 = [];
+    let m4 = [];
+
+    C11.matrix.map( (l) => {
+        l.map( (item) => {
+            m1.push(item);
+        })
+    })
+    C12.matrix.map( (l) => {
+        l.map( (item) => {
+            m2.push(item)
+        })
+    })
+
+    C21.matrix.map( (l) => {
+        l.map( (item) => {
+            m3.push(item)
+        })
+    })
+    
+    C22.matrix.map( (l) => {
+        l.map( (item) => {
+            m4.push(item)
+        })
+    })
+
+    return [m1, m2, m3 , m4]; 
+}
+
 
 function strassen(A, B){
     
@@ -53,13 +87,11 @@ function strassen(A, B){
     let C21 = Matrix.add(p6 , p2);
     let C22 = Matrix.minus(Matrix.add(p5 , p1) , Matrix.minus(p6 , p7));
     let C = [];
-    // C11.status();
-    for (let i = 0; i < 2 ; i++){
-        C.push(C11.matrix[i]);
-        C.push(C12.matrix[i]);
-        C.push(C21.matrix[i]);
-        C.push(C22.matrix[i]);
-    }
+    let [m1, m2, m3, m4] = cpy(C11, C12, C21, C22);
+    C.push(m1);
+    C.push(m2);
+    C.push(m3);
+    C.push(m4);
     C = new Matrix(C);
     return C;
 }
