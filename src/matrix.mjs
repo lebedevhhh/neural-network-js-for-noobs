@@ -15,7 +15,12 @@ export class Matrix{
         if (array == undefined){
             NoInputConstructorMatrix.showErr(); 
         }
+        if (array.length == array[0].length && !(array.length % 2)){
+            this.squared = true // algo strassen 
+        }
+        this.squared = false;
         this.shape = [array.length, array[0].length];
+
     }
 
     T(){
@@ -231,6 +236,15 @@ export class Matrix{
         }
         console.log("]");
     }
+
+    status(){
+        console.log({
+            array: this.matrix,
+            "M x N": this.shape,
+            "squared": this.squared,
+        })
+    }
+
 
 }
 
