@@ -3,7 +3,7 @@
 import { Matrix } from "../matrix.mjs";
 //n x n matrices only 
 
-function splitMatrix(A){
+export function splitMatrix(A){
 
     let n = A.shape[0];
     // console.log(n);
@@ -34,7 +34,7 @@ function splitMatrix(A){
 }
 
 //O(n2), but only 4 matrices
-function cpy(C11, C12, C21, C22){
+export function cpy(C11, C12, C21, C22){
 
     let m1 = [];
     let m2 = [];
@@ -68,7 +68,7 @@ function cpy(C11, C12, C21, C22){
 }
 
 
-function strassen(A, B){
+export function strassen(A, B){
     
     if (A.shape[0] <= 2){
         return Matrix.dot(A, B);
@@ -96,12 +96,21 @@ function strassen(A, B){
     return C;
 }
 
-let t1 = new Matrix([[4,5,3,2],[4,6,3,2],[3,5,23,2],[4,5,6,3]]);
+let t1 = new Matrix([[4,5,3],[4,6,2],[3,5,23]]);
 let t2 = new Matrix([
-    [5,5,5,5],[3,5,4,3],[65,7,4,3],[5,6,3,3]
+    [5,5,5],[3,5,4],[65,7,4]
 ]);
-
-
+// t1.status();
+// if (t1.matrix.length == t1.matrix[0].length){
+//     console.log("true");
+// }
+// else {
+//     console.log("false");
+// }   
 // console.log(t2.squared);
-strassen(t1 , t2).status();
-
+// strassen(t1 , t2).status()
+//a.matrix[i][k] * b.matrix[k][j]
+let t = [3,3];
+// if (t[0] == 3){
+//     console.log(true);
+// }

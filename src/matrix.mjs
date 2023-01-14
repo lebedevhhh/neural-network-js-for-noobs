@@ -1,4 +1,9 @@
 //in the name of the most merciful the all merciful
+import {strassen} from "./algorithms/Strassen.mjs";
+import { cpy } from "./algorithms/Strassen.mjs";
+import { splitMatrix } from "./algorithms/Strassen.mjs";
+import {karatsubaGeneralized} from "./algorithms/Karatsuba.mjs";
+import {getScientificNotation} from "./algorithms/Karatsuba.mjs";
 
 import { NoInputConstructorMatrix, 
     MatrixAdditionError,
@@ -14,13 +19,18 @@ export class Matrix{
         if (array == undefined){
             NoInputConstructorMatrix.showErr(); 
         }
+        else{
         this.matrix = array;
+        }
+
         if ( (array.length === array[0].length) && !(array.length % 2) ){
             this.squared = true // algo strassen 
         }
-        this.squared = false;
+        else{
+            this.squared = false;
+        }
+        
         this.shape = [array.length, array[0].length];
-
     }
 
     T(){
@@ -130,16 +140,22 @@ export class Matrix{
             MatrixDotError.showErr(a.shape, b.shape);
         }
 
-        let c = Array(a.shape[0])
-        for (let i = 0; i < c.length; i++){
-            c[i] = Array(b.shape[1])
+        if (a.status.squared == true && b.status.squared == true){
+            strassen(a,b)
         }
 
-        let res = Matrix.zeros(a.shape[0], b.shape[1])
-        for (var i = 0; i < a.shape[0]; i++){
-            for (var j = 0; j < b.shape[1]; j++){
-                for (var k = 0; k < b.shape[0]; k++){
-                    res.matrix[i][j] += a.matrix[i][k] * b.matrix[k][j]
+        else{
+            let c = Array(a.shape[0])
+            for (let i = 0; i < c.length; i++){
+                c[i] = Array(b.shape[1])
+            }
+
+            let res = Matrix.zeros(a.shape[0], b.shape[1])
+            for (var i = 0; i < a.shape[0]; i++){
+                for (var j = 0; j < b.shape[1]; j++){
+                    for (var k = 0; k < b.shape[0]; k++){
+                        res.matrix[i][j] += karatsubaGeneralized(a.matrix[i][k], b.matrix[k][j]);
+                    }
                 }
             }
         }
@@ -151,23 +167,32 @@ export class Matrix{
         
         for (let i = 0; i < this.shape[0]; i++){
             for (let j = 0; j < this.shape[1]; j++){
-                this.matrix[i][j] = a * this.matrix[i][j]
+                this.matrix[i][j] = karatsubaGeneralized(a, this.matrix[i][j]);
             }
         }
 
-        return this
+        return this;
     }
 
     //input should be 2x2 Matrix
-    getDet(){
+    getDet2(){
         // |A| (wich is the det(A))
-        if (this.shape != [2,2]){  
-            MatrixNotSquareError.showErr(this.shape);
+        if (this.shape[0] != 2 && this.shape[1] !=  2){  
+            MatrixNotDesired.showErr(this.shape, 2);
         }
         let result;
         result = (this.matrix[0][0] * this.matrix[2][2]) - (this.matrix[1][2] * this.matrix[2][1]);
         return result;
 
+    }
+
+    getDet3(){
+        if (this.shape[0] != 3 && this.shape[1] != 3){
+            MatrixNotDesired.showErr(this.shape, 3);
+        }
+        let result;
+        result = this.matrix[0][0] * (this.matrix[1][1] * this.matrix[2][2] - this.matrix[1][2] * this.matrix);
+        return result
     }
 
     static minus(a,b){
@@ -220,7 +245,7 @@ export class Matrix{
         //algo
         for (let i = 0; i < a.shape[0]; i++){
             for (let j = 0; j < a.shape[1]; j++){
-                c[i][j] = a.matrix[i][j] * b.matrix[i][j]
+                c[i][j] = karatsubaGeneralized(a.matrix[i][j], b.matrix[i][j]);
             }
         } 
 

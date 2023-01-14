@@ -38,8 +38,8 @@ export class MatrixNotSquareError{
 }
 
 export class MatrixNotDesired{
-    static showErr(shapeOfMatrix){
-        console.error(`Matrix is not of the desired shape: (${shapeOfMatrix[0]}, ${shapeOfMatrix[1]}) != (2,2)`);
+    static showErr(shapeOfMatrix, val1){
+        console.error(`Matrix is not of the desired shape: (${shapeOfMatrix[0]}, ${shapeOfMatrix[1]}) != (${val1}, ${val1})`);
         process.exit(1);
     }
 }
@@ -74,3 +74,4 @@ export class NoInputConstructorMatrix{
         process.exit(1);
     }
 }
+

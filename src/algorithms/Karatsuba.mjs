@@ -21,7 +21,7 @@ export default function karatsuba(x, y){
 
 //is there a way of doing this with decimal numbers??/
 //karatsuba generalized (works with decimals, we need)
-function getScientificNotation(number){
+export function getScientificNotation(number){
     if (Number.isInteger(number)){
         return karatsuba(number)
     }
@@ -41,7 +41,7 @@ function getScientificNotation(number){
 
 };
 
-function karatsubaGeneralized(x, y){
+export function karatsubaGeneralized(x, y){
     x = getScientificNotation(x);
     y = getScientificNotation(y);
     let product = karatsuba(x[0], y[0]);
