@@ -53,7 +53,7 @@ function strassen(A, B){
     let C21 = Matrix.add(p6 , p2);
     let C22 = Matrix.minus(Matrix.add(p5 , p1) , Matrix.minus(p6 , p7));
     let C = [];
-
+    // C11.status();
     for (let i = 0; i < 2 ; i++){
         C.push(C11.matrix[i]);
         C.push(C12.matrix[i]);
@@ -69,5 +69,7 @@ let t2 = new Matrix([
     [5,5,5,5],[3,5,4,3],[65,7,4,3],[5,6,3,3]
 ]);
 
+
+// console.log(t2.squared);
 strassen(t1 , t2).status();
 

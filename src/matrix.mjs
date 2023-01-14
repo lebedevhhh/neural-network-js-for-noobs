@@ -11,11 +11,11 @@ export class Matrix{
 
     //create from m,n dimensions 
     constructor(array){
-        this.matrix = array;
         if (array == undefined){
             NoInputConstructorMatrix.showErr(); 
         }
-        if (array.length == array[0].length && !(array.length % 2)){
+        this.matrix = array;
+        if ( (array.length === array[0].length) && !(array.length % 2) ){
             this.squared = true // algo strassen 
         }
         this.squared = false;
@@ -226,15 +226,6 @@ export class Matrix{
 
         c = new Matrix(c)
         return c;
-    }
-
-    repr(){
-        //this way is cleaner
-        console.log("[")
-        for (let x of this.matrix){
-            console.log(" [" + x + "] ");
-        }
-        console.log("]");
     }
 
     status(){
