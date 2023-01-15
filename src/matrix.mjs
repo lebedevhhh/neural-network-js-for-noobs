@@ -2,7 +2,7 @@
 import {strassen} from "./algorithms/Strassen.mjs";
 import { cpy } from "./algorithms/Strassen.mjs";
 import { splitMatrix } from "./algorithms/Strassen.mjs";
-import {karatsubaGeneralized} from "./algorithms/Karatsuba.mjs";
+import karatsuba, {karatsubaGeneralized} from "./algorithms/Karatsuba.mjs";
 import {getScientificNotation} from "./algorithms/Karatsuba.mjs";
 
 import { NoInputConstructorMatrix, 
@@ -124,7 +124,7 @@ export class Matrix{
 
         for (var i = 0; i < M; i++){
             for (var j = 0; j < N; j++){
-                randomMatrix[i][j] = Math.random() * range
+                randomMatrix[i][j] = karatsubaGeneralized(Math.random() * range)
             }
         }
 
@@ -181,7 +181,7 @@ export class Matrix{
             MatrixNotDesired.showErr(this.shape, 2);
         }
         let result;
-        result = (this.matrix[0][0] * this.matrix[2][2]) - (this.matrix[1][2] * this.matrix[2][1]);
+        result = karatsubaGeneralized(this.matrix[0][0] * this.matrix[2][2]) - karatsubaGeneralized(this.matrix[1][2] * this.matrix[2][1]);
         return result;
 
     }
@@ -191,8 +191,8 @@ export class Matrix{
             MatrixNotDesired.showErr(this.shape, 3);
         }
         let result;
-        result = this.matrix[0][0] * (this.matrix[1][1] * this.matrix[2][2] - this.matrix[1][2] * this.matrix);
-        return result
+        result = this.matrix[0][0] * (karatsubaGeneralized(this.matrix[1][1] * this.matrix[2][2]) - karatsubaGeneralized(this.matrix[1][2] * this.matrix));
+        return result;
     }
 
     static minus(a,b){

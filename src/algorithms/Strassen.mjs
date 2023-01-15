@@ -95,22 +95,3 @@ export function strassen(A, B){
     C = new Matrix(C);
     return C;
 }
-
-let t1 = new Matrix([[4,5,3],[4,6,2],[3,5,23]]);
-let t2 = new Matrix([
-    [5,5,5],[3,5,4],[65,7,4]
-]);
-// t1.status();
-// if (t1.matrix.length == t1.matrix[0].length){
-//     console.log("true");
-// }
-// else {
-//     console.log("false");
-// }   
-// console.log(t2.squared);
-// strassen(t1 , t2).status()
-//a.matrix[i][k] * b.matrix[k][j]
-let t = [3,3];
-// if (t[0] == 3){
-//     console.log(true);
-// }

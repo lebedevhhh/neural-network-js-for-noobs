@@ -33,4 +33,6 @@
 
 // let t = [() => {if (1==1) return [true]}];
 
-// // console.log(t());
+// // console.log(t())
+let t = undefined;
+console.log(typeof(t));

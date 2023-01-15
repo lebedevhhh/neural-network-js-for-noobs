@@ -7,7 +7,7 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "cd tests && node test.mjs
+    "test": "cd tests && node test.mjs"
   },
   "repository": {
     "type": "git",
