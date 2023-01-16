@@ -2,7 +2,7 @@
 
 //those are the activation functions 
 //DOCS ----> https://en.wikipedia.org/wiki/Activation_function
-
+import karatsubaGeneralized from "./algorithms/Karatsuba.mjs";
 
 export class activationFunctions{
 
@@ -37,14 +37,14 @@ export class activationFunctions{
         if (typeof(A) != "number"){
             for (let i = 0; i < A.shape[0]; i++){
                 for (let j = 0; j < A.shape[1]; j++){
-                    A.matrix[i][j] = 0.5 * A.matrix[i][j] * (1 + Math.tanh(Math.sqrt(2*Math.PI) * (A.matrix[i][j] + 0.044715 * Math.pow(A.matrix[i][j], 3))));
+                    A.matrix[i][j] = karatsubaGeneralized(0.5 , A.matrix[i][j]) * (1 + Math.tanh(Math.sqrt(2*Math.PI) * (A.matrix[i][j] + 0.044715 * Math.pow(A.matrix[i][j], 3))));
                 }
             }
             result = A;
             return result;
         }
         else{
-            result = 0.5 * A * (1+Math.tanh(Math.sqrt(2 * Math.PI) * (A + 0.004715 * Math.pow(A, 3))));
+            result = karatsubaGeneralized(0.5 , A) * (1+Math.tanh(Math.sqrt(2 * Math.PI) * (A + 0.004715 * Math.pow(A, 3))));
             return result;
         }
 
@@ -80,7 +80,7 @@ export class activationFunctions{
                         A.matrix[i][j] = A.matrix[i][j];
                     }
                     else{
-                        A.matrix[i][j] = params * (Math.pow(Math.E, A.matrix[i][j]) - 1);
+                        A.matrix[i][j] = karatsubaGeneralized(params , (Math.pow(Math.E, A.matrix[i][j]) - 1));
                     }
                 }
             }
@@ -94,7 +94,7 @@ export class activationFunctions{
                 return results;
             }
             else{
-                result = params * (Math.pow(Math.E, A) - 1);
+                result = karatsubaGeneralized(params , (Math.pow(Math.E, A) - 1));
                 return result;
             }
         }
@@ -163,7 +163,7 @@ export class activationFunctions{
         if (typeof(A) != "number"){
             for (let i = 0; i < A.shape[0]; i++){
                 for (let j = 0; j < A.shape[1]; j++){
-                    A.matrix[i][j] = A.matrix[i][j]/(1 + 0.28086 * Math.pow(2, A.matrix[i][j])) //division and multiplication
+                    A.matrix[i][j] = A.matrix[i][j]/(1 + karatsubaGeneralized(0.28086 , Math.pow(2, A.matrix[i][j]))) //division and multiplication
                 }
             }
             result = A
@@ -265,18 +265,16 @@ export default class derivActivationFunctions{
         if (typeof(A) != "number"){
             for (let i = 0; i < A.shape[0]; i++){
                 for (let j = 0; j < A.shape[1]; j++){
-                    //TDOO
-                    // result = 1 - Math.pow( Math.pow(Math.E,) ,2);
+                    A.matrix[i][j] = 1 - Math.pow(Math.tanh(A.matrix[i][j]), 2);
                 }
             }
-            result = A
-            return result
+            result = A;
+            return result;
         }
     
         //cas nombre entier
         else{
-            //toDO
-            // result = 1 - Math.pow( ,2);
+            result = 1- Math.pow(Math.tanh(A),2);
             return result
         }
     }
@@ -349,31 +347,23 @@ export default class derivActivationFunctions{
         }
     }
 
-    //static SiLU TODO
-
-
-    //TODO
-    static derivGELU(A){
+    static SiLU(A){
         let result;
 
-        //cas matrix
-        if (typeof(A) != "number"){
+        if (A.constructor.name == "Matrix"){
             for (let i = 0; i < A.shape[0]; i++){
                 for (let j = 0; j < A.shape[1]; j++){
-                    //TDOO
-                    // result = 1 - Math.pow( Math.pow(Math.E,) ,2);
+                    A.matrix[i][j] = A.matrix[i][j]/ (1+Math.pow(e, -A.matrix[i][j]));
                 }
             }
-            result = A
-            return result
         }
-    
-        //cas nombre entier
+
+
         else{
-            //toDO
-            // result = 1 - Math.pow( ,2);
-            return result
+            result = A/(1+Math.pow(e, -A));
+            return result;
         }
     }
+
 
 }
