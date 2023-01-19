@@ -70,28 +70,36 @@ export function cpy(C11, C12, C21, C22){
 
 export function strassen(A, B){
     
-    if (A.shape[0] <= 2){
-        return Matrix.dot(A, B);
+
+    if (A.shape[0] % 2 && A.squared == true){
+        if (A.shape[0] <= 2){
+            return Matrix.dot(A, B);
+        }
+
+        let [a,b,c,d] = splitMatrix(A);
+        let [e,f,g,h] = splitMatrix(B);
+        let p1 = strassen(Matrix.add(a, d), Matrix.add(e,h));
+        let p2 = strassen(d, Matrix.minus(g, e));
+        let p3 = strassen(Matrix.add(a, b), h);
+        let p4 = strassen(Matrix.minus(b, d), Matrix.minus(g, h));
+        let p5 = strassen(a, Matrix.minus(f,h));
+        let p6 = strassen(Matrix.add(c, d), e);
+        let p7 = strassen(Matrix.minus(a, c), Matrix.add(e, f));
+        let C11 = Matrix.minus(Matrix.add(p1 , p2) , Matrix.add(p3 ,p4));
+        let C12 = Matrix.add(p5 , p3);
+        let C21 = Matrix.add(p6 , p2);
+        let C22 = Matrix.minus(Matrix.add(p5 , p1) , Matrix.minus(p6 , p7));
+        let C = [];
+        let [m1, m2, m3, m4] = cpy(C11, C12, C21, C22);
+        C.push(m1);
+        C.push(m2);
+        C.push(m3);
+        C.push(m4);
+        C = new Matrix(C);
+        return C;
     }
-    let [a,b,c,d] = splitMatrix(A);
-    let [e,f,g,h] = splitMatrix(B);
-    let p1 = strassen(Matrix.add(a, d), Matrix.add(e,h));
-    let p2 = strassen(d, Matrix.minus(g, e));
-    let p3 = strassen(Matrix.add(a, b), h);
-    let p4 = strassen(Matrix.minus(b, d), Matrix.minus(g, h));
-    let p5 = strassen(a, Matrix.minus(f,h));
-    let p6 = strassen(Matrix.add(c, d), e);
-    let p7 = strassen(Matrix.minus(a, c), Matrix.add(e, f));
-    let C11 = Matrix.minus(Matrix.add(p1 , p2) , Matrix.add(p3 ,p4));
-    let C12 = Matrix.add(p5 , p3);
-    let C21 = Matrix.add(p6 , p2);
-    let C22 = Matrix.minus(Matrix.add(p5 , p1) , Matrix.minus(p6 , p7));
-    let C = [];
-    let [m1, m2, m3, m4] = cpy(C11, C12, C21, C22);
-    C.push(m1);
-    C.push(m2);
-    C.push(m3);
-    C.push(m4);
-    C = new Matrix(C);
-    return C;
+    else{
+        console.error(`${A.shape} or matrix not squareds`);
+        process.exit(1);
+    }
 }

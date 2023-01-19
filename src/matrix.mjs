@@ -20,16 +20,14 @@ export class Matrix{
             NoInputConstructorMatrix.showErr(); 
         }
         else{
-        this.matrix = array;
+            this.matrix = array;
         }
-
-        if ( (array.length === array[0].length) && !(array.length % 2) ){
+        if ( array.length === array[0].length){
             this.squared = true // algo strassen 
         }
         else{
             this.squared = false;
         }
-        
         this.shape = [array.length, array[0].length];
     }
 
@@ -114,6 +112,37 @@ export class Matrix{
         return I
     }
 
+    //split the matrix into 4 pieces
+    quadSplit(){
+        if (this.shape[0] != this.shape[1]){
+            console.log(`The matrix is not squared : ${this.shape}`);
+            process.exit(1);
+        }
+        let m1 = [];
+        let m2 = [];
+        let m3 = [];
+        let m4 = [];
+        let n = this.shape[0];
+        
+        this.matrix.slice(0, n/2).map( (subList) => {
+            m1.push(subList.slice(0, n/2));
+        });
+        this.matrix.slice(0, n/2).map((subList) => {
+            m2.push(subList.slice(n/2 , n));
+        })
+        this.matrix.slice(n/2, n).map( (subList) => {
+            m3.push(subList.slice(0, n/2));
+        })
+        this.matrix.slice(n/2, n).map((subList) => {
+            m4.push(subList.slice(n/2 , n));
+        })
+        m1 = new Matrix(m1);
+        m2 = new Matrix(m2);
+        m3 = new Matrix(m3);
+        m4 = new Matrix(m4);
+        return [m1, m2, m3, m4];
+    }
+
     static random(M, N, range){
 
         //this solution is very cleaver
@@ -162,6 +191,21 @@ export class Matrix{
 
         return res;
     }
+
+    //computes the inverse of a matrix
+    inverse(){
+
+        if (this.shape[0] != this.shape[1]){
+            MatrixNotSquareError.showErr(this.shape);
+        }
+        //maybe use the gaussian elemination
+        let inverseMatrix;
+        let I = Matrix.identity(this.shape[0], this.shape[1]);
+        
+        
+        return inverseMatrix;
+    }
+
 
     coe(a){
         
@@ -217,6 +261,13 @@ export class Matrix{
         return c;
     }
 
+
+    //uses the gaussian elim
+    solve(){
+
+    }
+
+
     //returns the positive values of a matrix (like the absolute matrix);
     static absMatrix(A){
         let result;
@@ -253,14 +304,16 @@ export class Matrix{
         return c;
     }
 
-    status(){
-        console.log({
-            array: this.matrix,
-            "M x N": this.shape,
-            "squared": this.squared,
-        })
+    repr(){
+        console.log("[");
+        // console.log("");
+        for (let i = 0; i < this.shape[0]; i++){
+            console.log(`    [${this.matrix[i]}]`);
+            // console.log("");
+        }
+        console.log("]");
+
+        // console.log(A.matrix[0])
     }
-
-
 }
 
