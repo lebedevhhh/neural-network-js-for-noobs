@@ -3,6 +3,7 @@
 // import { NeuralNet } from "../main.mjs";
 // import { Matrix } from "../matrix.mjs";
 import { Matrix } from "../src/matrix.mjs";
+import { activationFunctions } from "../src/Active.mjs";
 // let input = new Matrix([
 //     [1,0.1,6,19],
 //     [1.2,4,5,0],
@@ -51,8 +52,9 @@ let t = new Matrix([
 // console.log(t[0].length);
 // // console.log()ff;d
 
+// activationFunctions.softMax(t).repr();
 // let [t1, t2, t3, t4] = t.quadSplit();
-console.log(t.repr());
+// console.log(t.repr());
 // console.log(t1.status());
 
 // for (let subMatrix of t.quadSplit()){

@@ -51,23 +51,53 @@ export class activationFunctions{
     }
 
 
-    static Softplus(A){
+    static softMax(A){
+        //I need to compute the sum of all the elements in a row.
 
-        let result;
-        
-        if (typeof(A) == "number"){
+
+        if (typeof(A) != "number"){
+            // let sum = 0;
+            //we can decompose the matrix into vectors 
             for (let i = 0; i < A.shape[0]; i++){
+                //sum of all the vector's element
+                let sum = 0;
                 for (let j = 0; j < A.shape[1]; j++){
-                    A.matrix[i][j] = Math.log( 1 + Math.pow(A.matrix[i][j], Math.E));
+                    sum += Math.pow(Math.E, A.matrix[i][j]);
+                }
+
+                for (let k = 0; k < A.shape[1]; k++){
+                    A.matrix[i][k] = Math.pow(Math.E, A.matrix[i][k])/sum;
                 }
             }
-            result = A;
-            return result;
+            return A;
         }
         
-        result = Math.log(1+ Math.pow(A, Math.E));
-        return result;
+        return this.sigmoid(A);
     }
+
+
+
+
+
+
+
+    // static Softplus(A){
+
+    //     let result;
+        
+    //     if (typeof(A) == "number"){
+    //         for (let i = 0; i < A.shape[0]; i++){
+    //             for (let j = 0; j < A.shape[1]; j++){
+    //                 A.matrix[i][j] = Math.log( 1 + Math.pow(A.matrix[i][j], Math.E));
+    //             }
+    //         }
+    //         result = A;
+    //         return result;
+    //     }
+        
+    //     result = Math.log(1+ Math.pow(A, Math.E));
+    //     return result;
+    // }
 
     static ELU(A, params){
 
