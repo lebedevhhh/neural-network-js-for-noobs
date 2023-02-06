@@ -192,21 +192,6 @@ export class Matrix{
         return res;
     }
 
-    //computes the inverse of a matrix
-    inverse(){
-
-        if (this.shape[0] != this.shape[1]){
-            MatrixNotSquareError.showErr(this.shape);
-        }
-        //maybe use the gaussian elemination
-        let inverseMatrix;
-        let I = Matrix.identity(this.shape[0], this.shape[1]);
-        
-        
-        return inverseMatrix;
-    }
-
-
     coe(a){
         
         for (let i = 0; i < this.shape[0]; i++){
