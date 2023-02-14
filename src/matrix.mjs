@@ -153,7 +153,7 @@ export class Matrix{
 
         for (var i = 0; i < M; i++){
             for (var j = 0; j < N; j++){
-                randomMatrix[i][j] = karatsubaGeneralized(Math.random() * range)
+                randomMatrix[i][j] = Math.random() * range;
             }
         }
 
@@ -183,7 +183,7 @@ export class Matrix{
             for (var i = 0; i < a.shape[0]; i++){
                 for (var j = 0; j < b.shape[1]; j++){
                     for (var k = 0; k < b.shape[0]; k++){
-                        res.matrix[i][j] += karatsubaGeneralized(a.matrix[i][k], b.matrix[k][j]);
+                        res.matrix[i][j] += a.matrix[i][k], b.matrix[k][j];
                     }
                 }
             }
@@ -196,21 +196,20 @@ export class Matrix{
         
         for (let i = 0; i < this.shape[0]; i++){
             for (let j = 0; j < this.shape[1]; j++){
-                this.matrix[i][j] = karatsubaGeneralized(a, this.matrix[i][j]);
+                this.matrix[i][j] = a, this.matrix[i][j];
             }
         }
 
         return this;
     }
 
-    //input should be 2x2 Matrix
     getDet2(){
         // |A| (wich is the det(A))
         if (this.shape[0] != 2 && this.shape[1] !=  2){  
             MatrixNotDesired.showErr(this.shape, 2);
         }
         let result;
-        result = karatsubaGeneralized(this.matrix[0][0] * this.matrix[2][2]) - karatsubaGeneralized(this.matrix[1][2] * this.matrix[2][1]);
+        result = this.matrix[0][0] * this.matrix[2][2] - this.matrix[1][2] * this.matrix[2][1];
         return result;
 
     }
@@ -220,7 +219,7 @@ export class Matrix{
             MatrixNotDesired.showErr(this.shape, 3);
         }
         let result;
-        result = this.matrix[0][0] * (karatsubaGeneralized(this.matrix[1][1] * this.matrix[2][2]) - karatsubaGeneralized(this.matrix[1][2] * this.matrix));
+        result = this.matrix[0][0] * (this.matrix[1][1] * this.matrix[2][2]) - (this.matrix[1][2] * this.matrix);
         return result;
     }
 
@@ -245,13 +244,6 @@ export class Matrix{
         c = new Matrix(c)
         return c;
     }
-
-
-    //uses the gaussian elim
-    solve(){
-
-    }
-
 
     //returns the positive values of a matrix (like the absolute matrix);
     static absMatrix(A){
@@ -281,7 +273,7 @@ export class Matrix{
         //algo
         for (let i = 0; i < a.shape[0]; i++){
             for (let j = 0; j < a.shape[1]; j++){
-                c[i][j] = karatsubaGeneralized(a.matrix[i][j], b.matrix[i][j]);
+                c[i][j] = a.matrix[i][j], b.matrix[i][j];
             }
         } 
 
@@ -297,8 +289,6 @@ export class Matrix{
             // console.log("");
         }
         console.log("]");
-
-        // console.log(A.matrix[0])
     }
 }
 

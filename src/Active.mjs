@@ -73,7 +73,7 @@ export class activationFunctions{
         }
         
         return this.sigmoid(A);
-    }
+    }[]
 
 
 

@@ -21,6 +21,7 @@
   },
   "homepage": "https://github.com/lebedevhhh/neural-network-js-for-noobs#readme",
   "dependencies": {
+    "csv-parser": "^3.0.0",
     "csv-stringify": "^6.2.3",
     "dom-parser": "^0.1.6",
     "js-yaml": "^4.1.0",
